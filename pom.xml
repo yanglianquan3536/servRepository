@@ -10,6 +10,13 @@
     <name>servRepository</name>
     <description>服务管理平台</description>
 
+    <properties>
+        <netty-all.version>4.1.50.Final</netty-all.version>
+        <maven.compile.plugin.version>3.8.1</maven.compile.plugin.version>
+        <jdk.source.version>1.8</jdk.source.version>
+        <jdk.target.version>1.8</jdk.target.version>
+    </properties>
+
     <modules>
         <module>core</module>
         <module>client</module>
@@ -19,6 +26,7 @@
         <module>common</module>
         <module>collector</module>
         <module>monitor-view</module>
+        <module>pipeline</module>
     </modules>
 
 
@@ -81,11 +89,30 @@
                 <artifactId>monitor-view</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>pipeline</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty-all.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compile.plugin.version}</version>
+                <configuration>
+                    <source>${jdk.source.version}</source>
+                    <target>${jdk.target.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

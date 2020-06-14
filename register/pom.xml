@@ -11,5 +11,14 @@
 
     <artifactId>register</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>pipeline</artifactId>
+        </dependency>
+    </dependencies>
 </project>
