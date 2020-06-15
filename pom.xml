@@ -11,13 +11,14 @@
     <description>服务管理平台</description>
 
     <properties>
-        <netty-all.version>4.1.50.Final</netty-all.version>
+        <netty-all.version>4.1.45.Final</netty-all.version>
         <maven.compile.plugin.version>3.8.1</maven.compile.plugin.version>
         <jdk.source.version>1.8</jdk.source.version>
         <jdk.target.version>1.8</jdk.target.version>
         <slf4j-api.version>1.7.7</slf4j-api.version>
         <logback.version>1.2.3</logback.version>
         <log4j.version>2.11.2</log4j.version>
+        <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
     </properties>
 
     <modules>
@@ -47,7 +48,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.3.1.RELEASE</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
