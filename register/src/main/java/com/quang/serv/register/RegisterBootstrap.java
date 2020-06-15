@@ -10,6 +10,7 @@ import com.quang.serv.register.health.ServiceHealthCollector;
  */
 public class RegisterBootstrap {
     public static void main(String[] args) {
+
         // 启动健康数据上报
         HealthServerBootstrap.start(new ServiceHealthCollector());
     }
