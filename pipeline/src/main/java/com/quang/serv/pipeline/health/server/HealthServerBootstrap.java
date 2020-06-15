@@ -1,6 +1,6 @@
 package com.quang.serv.pipeline.health.server;
 
-import com.quang.serv.core.components.Collector;
+import com.quang.serv.core.components.collector.Collector;
 import com.quang.serv.core.health.HealthReport;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -19,6 +19,7 @@
         <logback.version>1.2.3</logback.version>
         <log4j.version>2.11.2</log4j.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+        <jackson.version>2.11.0</jackson.version>
     </properties>
 
     <modules>
@@ -135,6 +136,25 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
+
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 

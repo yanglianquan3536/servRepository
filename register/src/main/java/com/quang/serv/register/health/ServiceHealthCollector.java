@@ -1,6 +1,6 @@
 package com.quang.serv.register.health;
 
-import com.quang.serv.core.components.Collector;
+import com.quang.serv.core.components.collector.Collector;
 import com.quang.serv.core.health.HealthReport;
 
 /**
