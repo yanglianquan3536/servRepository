@@ -1,11 +1,11 @@
 package com.quang.serv.pipeline.cache;
 
 import com.quang.serv.core.components.cache.CacheSerializable;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 /**
  * @author Lianquan Yang
@@ -14,22 +14,25 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
 
     @Resource
     protected RedisTemplate<String, T> redisTemplate;
-    private String prefix;
+    private String group;
     // 默认过期时间
-    private long expireSeconds = 10 * 60;
+    private long expireSeconds;
 
-    public CacheImplement(String prefix){
-        this.prefix = prefix;
+    private static final long DEFAULT_EXPIRE_SECONDS = 10 * 60;
+
+    public CacheImplement(String group){
+        this(group, DEFAULT_EXPIRE_SECONDS);
     }
 
-    public void setExpireSeconds(long expireSeconds){
+    public CacheImplement(String group, long expireSeconds){
+        this.group = group;
         this.expireSeconds = expireSeconds;
     }
 
     @Override
     public boolean add(T t) {
-        ValueOperations<String, T> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(getKey(t), t, expireSeconds, TimeUnit.SECONDS);
+        HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
+        hKeyOperation.putIfAbsent(group, t.getKey(), t);
         return true;
     }
 
@@ -40,8 +43,9 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
 
     @Override
     public boolean remove(String key) {
-        Boolean delResult = redisTemplate.delete(getKey(key));
-        return delResult != null && delResult;
+        HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
+        Long effectiveNum = hKeyOperation.delete(group, key);
+        return effectiveNum > 0;
     }
 
     @Override
@@ -51,15 +55,18 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
 
     @Override
     public boolean has(String key) {
-        Boolean hasResult = redisTemplate.hasKey(getKey(key));
-        return hasResult != null && hasResult;
+        HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
+        return hKeyOperation.hasKey(group, key);
     }
 
-    private String getKey(T t){
-        return getKey(t.getKey());
+    @Override
+    public Map<String, T> list(){
+        HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
+        return hKeyOperation.entries(group);
     }
 
-    private String getKey(String key){
-        return prefix + "_" + key;
+    public T get(String key){
+        HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
+        return hKeyOperation.get(group, key);
     }
 }

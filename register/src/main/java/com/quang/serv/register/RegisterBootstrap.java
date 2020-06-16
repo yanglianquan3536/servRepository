@@ -1,7 +1,7 @@
 package com.quang.serv.register;
 
 import com.quang.serv.pipeline.health.server.HealthServerBootstrap;
-import com.quang.serv.register.health.ServiceHealthCollector;
+import com.quang.serv.register.health.HealthReportCollector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,7 +16,7 @@ public class RegisterBootstrap {
 
         SpringApplication.run(RegisterBootstrap.class, args);
         // 启动健康数据上报
-        HealthServerBootstrap.start(new ServiceHealthCollector());
+        HealthServerBootstrap.start(new HealthReportCollector());
 
     }
 }

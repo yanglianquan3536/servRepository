@@ -2,6 +2,8 @@ package com.quang.serv.pipeline.cache;
 
 import com.quang.serv.core.components.cache.CacheSerializable;
 
+import java.util.Map;
+
 public interface Cache<T extends CacheSerializable> {
 
     boolean add(T t);
@@ -14,4 +16,5 @@ public interface Cache<T extends CacheSerializable> {
 
     boolean has(String key);
 
+    Map<String, T> list();
 }

@@ -14,6 +14,7 @@ public class HealthReport implements CacheSerializable {
     private String serviceName;
     private String ip;
     private Date currentTime;
+    private int lostTimes;
 
     @Override
     public String getKey() {
