@@ -1,8 +1,8 @@
 package com.quang.serv.register.health;
 
+import com.quang.serv.components.cache.impl.HealthReportCache;
 import com.quang.serv.core.components.collector.Collector;
 import com.quang.serv.core.health.HealthReport;
-import com.quang.serv.pipeline.cache.impl.HealthReportCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

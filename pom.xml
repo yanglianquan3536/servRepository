@@ -20,6 +20,8 @@
         <log4j.version>2.11.2</log4j.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
         <jackson.version>2.11.0</jackson.version>
+        <nacos.version>1.3.0</nacos.version>
+        <fastjson.version>1.2.71</fastjson.version>
     </properties>
 
     <modules>
@@ -29,9 +31,9 @@
         <module>register</module>
         <module>serv-manager</module>
         <module>common</module>
-        <module>collector</module>
         <module>monitor-view</module>
-        <module>pipeline</module>
+        <module>collect-server</module>
+        <module>components</module>
     </modules>
 
 
@@ -96,7 +98,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>pipeline</artifactId>
+                <artifactId>components</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -153,7 +155,16 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
