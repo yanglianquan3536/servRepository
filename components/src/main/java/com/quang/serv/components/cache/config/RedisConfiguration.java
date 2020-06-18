@@ -1,6 +1,6 @@
 package com.quang.serv.components.cache.config;
 
-import com.quang.serv.core.components.cache.CacheSerializable;
+import com.quang.serv.core.components.CacheSerializable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
