@@ -10,7 +10,7 @@ public interface IServiceNodeMapper extends CommonMapper<Long, ServiceNode> {
 
     int deleteByServiceId(long serviceId);
 
-    ServiceNode selectByNode(@Param("host") String host, @Param("port") int port);
+    ServiceNode selectByHost(@Param("serviceId") long serviceId, @Param("host") String host);
 
     List<ServiceNode> selectByServiceId(long serviceId);
 }

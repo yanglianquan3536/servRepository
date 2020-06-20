@@ -1,7 +1,6 @@
 package com.quang.serv.components.business.service.impl;
 
 import com.quang.serv.components.business.service.IServiceBusiness;
-import com.quang.serv.components.cache.Cache;
 import com.quang.serv.components.distribute.Distribute;
 import com.quang.serv.components.mybatis.dao.service.IServiceConfigMapper;
 import com.quang.serv.components.mybatis.dao.service.IServiceMapper;
@@ -42,6 +41,11 @@ public class ServiceBusiness implements IServiceBusiness {
     }
 
     @Override
+    public Service selectByName(String serviceName){
+        return serviceMapper.selectByName(serviceName);
+    }
+
+    @Override
     public Service selectDetailById(long serviceId){
         Service service = serviceMapper.selectById(serviceId);
         if(service != null){
@@ -54,6 +58,21 @@ public class ServiceBusiness implements IServiceBusiness {
             return service;
         }
         log.error(String.format("cannot find service by id [%d], please check", serviceId));
+        return null;
+    }
+
+    @Override
+    public List<Service> list() {
+        return serviceMapper.list();
+    }
+
+    @Override
+    public Service selectDetailByName(String serviceName){
+        Service service = serviceMapper.selectByName(serviceName);
+        if(service != null){
+            return selectDetailById(service.getId());
+        }
+        log.error(String.format("cannot find service named [%s], please check", serviceName));
         return null;
     }
 
@@ -90,7 +109,6 @@ public class ServiceBusiness implements IServiceBusiness {
     /**
      * 移除Service需移除关联信息
      * @param serviceName 指定service名
-     * @return
      */
     @Override
     public boolean removeService(String serviceName) {
@@ -130,6 +148,8 @@ public class ServiceBusiness implements IServiceBusiness {
         if(service != null){
             // 开始添加节点
             serviceNodeMapper.insert(serviceNode);
+            // 下发配置
+            publish(serviceNode.getServiceId());
             return true;
         }
         log.error(String.format("cannot find service by id [%d], so serviceNode cannot be added, please check", serviceNode.getServiceId()));
@@ -138,17 +158,19 @@ public class ServiceBusiness implements IServiceBusiness {
 
     /*移除节点时根据服务名，主机名和端口移除*/
     @Override
-    public boolean removeNode(String serviceName, String host, int port) {
+    public boolean removeNode(String serviceName, String host) {
         Service service = serviceMapper.selectByName(serviceName);
         if(service != null){
             long serviceId = service.getId();
             // 根据host和port查询node
-            ServiceNode serviceNode = serviceNodeMapper.selectByNode(host, port);
+            ServiceNode serviceNode = serviceNodeMapper.selectByHost(serviceId, host);
             if(serviceNode == null){
-                log.warn(String.format("node [host=%s, port=%d] may have been removed, please check", host, port));
+                log.warn(String.format("node [service=%s, host=%s] may have been removed, please check", serviceName, host));
                 return true;
             }
             serviceNodeMapper.deleteById(serviceNode.getId());
+            // 准备就绪后同步配置
+            publish(serviceName);
             return true;
         }
         log.error(String.format("cannot find service named [%s], please check", serviceName));
@@ -178,5 +200,17 @@ public class ServiceBusiness implements IServiceBusiness {
     @Override
     public boolean removeServiceMethod(List<ServiceMethod> serviceMethods) {
         return false;
+    }
+
+    @Override
+    public void publish(String serviceName){
+        Service service = selectDetailByName(serviceName);
+        serviceNacosDistribute.publish(service);
+    }
+
+    @Override
+    public void publish(long serviceId){
+        Service service = selectDetailById(serviceId);
+        serviceNacosDistribute.publish(service);
     }
 }

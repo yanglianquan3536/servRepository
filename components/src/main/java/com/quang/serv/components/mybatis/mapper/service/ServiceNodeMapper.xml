@@ -16,12 +16,12 @@
     from service_node
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByNode" resultMap="BaseResultMap">
+  <select id="selectByHost" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from service_node
-    where host = #{host,jdbcType=VARCHAR}
-    and port = #{port, jdbcType=INTEGER}
+    where service_id = #{service_id, jdbcType=BIGINT}
+    and host = #{host,jdbcType=VARCHAR}
   </select>
   <select id="selectByServiceId" resultMap="BaseResultMap">
     select

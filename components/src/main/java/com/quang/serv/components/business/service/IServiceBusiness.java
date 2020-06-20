@@ -11,7 +11,13 @@ public interface IServiceBusiness {
 
     Service selectById(long serviceId);
 
+    Service selectDetailByName(String serviceName);
+
+    Service selectByName(String serviceName);
+
     Service selectDetailById(long serviceId);
+
+    List<Service> list();
 
     boolean addService(Service service);
 
@@ -19,7 +25,7 @@ public interface IServiceBusiness {
 
     boolean addNode(ServiceNode serviceNode);
 
-    boolean removeNode(String serviceName, String host, int port);
+    boolean removeNode(String serviceName, String host);
 
     boolean updateConfig(ServiceConfig serviceConfig);
 
@@ -30,4 +36,8 @@ public interface IServiceBusiness {
     boolean addServiceMethod(List<ServiceMethod> serviceMethods);
 
     boolean removeServiceMethod(List<ServiceMethod> serviceMethods);
+
+    void publish(String serviceName);
+
+    void publish(long serviceId);
 }

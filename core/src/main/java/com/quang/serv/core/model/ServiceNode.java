@@ -13,5 +13,5 @@ public class ServiceNode {
     private Long id;
     private Long serviceId;
     private String host;
-    private String port;
+    private int port;
 }

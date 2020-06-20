@@ -1,5 +1,6 @@
-package com.quang.serv.components.cache;
+package com.quang.serv.components.cache.impl.base;
 
+import com.quang.serv.components.cache.HashCache;
 import com.quang.serv.core.components.CacheSerializable;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,10 +9,10 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 /**
- * 缓存的默认实现（Hash）方式
+ * 缓存的实现（Hash）方式
  * @author Lianquan Yang
  */
-public abstract class CacheImplement<T extends CacheSerializable> implements Cache<T> {
+public abstract class HashCacheImplement<T extends CacheSerializable> implements HashCache<T> {
 
     @Resource
     protected RedisTemplate<String, T> redisTemplate;
@@ -21,11 +22,11 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
 
     private static final long DEFAULT_EXPIRE_SECONDS = 10 * 60;
 
-    public CacheImplement(String group){
+    public HashCacheImplement(String group){
         this(group, DEFAULT_EXPIRE_SECONDS);
     }
 
-    public CacheImplement(String group, long expireSeconds){
+    public HashCacheImplement(String group, long expireSeconds){
         this.group = group;
         this.expireSeconds = expireSeconds;
     }
@@ -33,13 +34,12 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
     @Override
     public boolean add(T t) {
         HashOperations<String, String, T> hKeyOperation = redisTemplate.opsForHash();
-        hKeyOperation.putIfAbsent(group, t.getKey(), t);
-        return true;
+        return hKeyOperation.putIfAbsent(group, t.getKeyForHash(), t);
     }
 
     @Override
     public boolean remove(T t) {
-        return remove(t.getKey());
+        return remove(t.getKeyForHash());
     }
 
     @Override
@@ -51,7 +51,7 @@ public abstract class CacheImplement<T extends CacheSerializable> implements Cac
 
     @Override
     public boolean has(T t) {
-        return has(t.getKey());
+        return has(t.getKeyForHash());
     }
 
     @Override

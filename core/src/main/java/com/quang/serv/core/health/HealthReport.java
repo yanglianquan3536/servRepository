@@ -14,13 +14,9 @@ import java.util.Date;
 public class HealthReport implements CacheSerializable {
     private String serviceName;
     private String ip;
+    private int port;
     private Date currentTime;
     private int lostTimes;
-
-    @Override
-    public String getKey() {
-        return serviceName + "_" + ip;
-    }
 
     public boolean equals(Object other){
         if(other == null) return false;
@@ -32,5 +28,15 @@ public class HealthReport implements CacheSerializable {
         if(StringUtils.isBlank(this.ip) && StringUtils.isNotBlank(another.getIp())) return false;
         if(StringUtils.isNotBlank(this.ip) && StringUtils.isBlank(another.getIp())) return false;
         return !StringUtils.isNotBlank(this.ip) || !StringUtils.isNotBlank(another.getIp()) || this.ip.equals(another.getIp());
+    }
+
+    @Override
+    public String getKeyForHash() {
+        return serviceName + "_" + ip;
+    }
+
+    @Override
+    public String getKeyForSet() {
+        return serviceName;
     }
 }
