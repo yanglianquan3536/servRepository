@@ -8,8 +8,8 @@ import lombok.Data;
  */
 @Data
 public class ServiceConfig {
-    private long id;
-    private long serviceId;
+    private Long id;
+    private Long serviceId;
     // 连接重置时间
-    public int maxConnResetTimeout;
+    public Integer maxConnResetTimeout;
 }

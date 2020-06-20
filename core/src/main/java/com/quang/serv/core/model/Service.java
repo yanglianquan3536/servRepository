@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class Service {
 
-    private long id;
+    private Long id;
     private String name;
     // 拥有者
     private String owner;
@@ -21,9 +21,9 @@ public class Service {
     private String host;
     private String port;
     private String context;
-    private int version;
+    private Integer version;
     // 服务环境
-    private int env;
+    private Integer env;
 
     private Date createTime;
     private Date updateTime;

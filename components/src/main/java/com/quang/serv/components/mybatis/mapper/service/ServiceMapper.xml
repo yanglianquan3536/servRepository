@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quang.serv.components.mybatis.dao.ServicePO">
+    <resultMap id="BaseResultMap" type="com.quang.serv.core.model.Service" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="owner" property="owner" jdbcType="VARCHAR" />
+        <result column="protocol" property="protocol" jdbcType="VARCHAR" />
+        <result column="host" property="host" jdbcType="VARCHAR" />
+        <result column="port" property="port" jdbcType="INTEGER" />
+        <result column="context" property="context" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+        <result column="env" property="env" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        `id`, name, owner, protocol, host, port, context, version, env, create_time, update_time
+    </sql>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from service
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from service
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from service
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.quang.serv.core.model.Service" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into service
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="owner != null" >
+                owner,
+            </if>
+            <if test="protocol != null" >
+                protocol,
+            </if>
+            <if test="host != null" >
+                host,
+            </if>
+            <if test="port != null" >
+                port,
+            </if>
+            <if test="context != null" >
+                context,
+            </if>
+            <if test="version != null" >
+                version,
+            </if>
+            <if test="env != null" >
+                env,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="protocol != null" >
+                #{protocol,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null" >
+                #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null" >
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="context != null" >
+                #{context,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="env != null" >
+                #{env,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.quang.serv.core.model.Service" >
+        update service
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                owner = #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="protocol != null" >
+                protocol = #{protocol,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null" >
+                host = #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null" >
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="context != null" >
+                context = #{context,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                version = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="env != null" >
+                env = #{env,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

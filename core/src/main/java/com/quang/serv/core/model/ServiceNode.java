@@ -10,7 +10,8 @@ import lombok.Data;
  */
 @Data
 public class ServiceNode {
-    private long id;
-    private long serviceId;
+    private Long id;
+    private Long serviceId;
     private String host;
+    private String port;
 }

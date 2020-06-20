@@ -8,8 +8,8 @@ import lombok.Data;
  */
 @Data
 public class ServiceMethod {
-    private long id;
-    private long serviceId;
+    private Long id;
+    private Long serviceId;
     private String group;
     private String path;
 }
