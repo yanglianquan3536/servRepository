@@ -1,5 +1,6 @@
-package com.quang.serv.collect;
+package com.quang.serv.collect.server;
 
+import com.quang.serv.collect.collectors.NettyMessageCollector;
 import com.quang.serv.core.components.collector.Collector;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class ChannelInboundHandler extends ChannelInboundHandlerAdapter{
 
-    private Collector<String> collector = new MessageCollector();
+    private Collector<String> collector = new NettyMessageCollector();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

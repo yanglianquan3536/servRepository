@@ -1,7 +1,5 @@
-package com.quang.serv.collect;
+package com.quang.serv.collect.server;
 
-import com.quang.serv.core.components.collector.Collector;
-import com.quang.serv.core.health.HealthReport;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

@@ -1,4 +1,4 @@
-package com.quang.serv.collect;
+package com.quang.serv.collect.server;
 
 import lombok.Data;
 
