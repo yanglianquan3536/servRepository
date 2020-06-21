@@ -1,30 +1,28 @@
 package com.quang.serv.collect;
 
 import com.quang.serv.core.components.collector.Collector;
-import com.quang.serv.core.health.HealthReport;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
 
 /**
  * @author Lianquan Yang
  */
+@Slf4j
 public class ChannelInboundHandler extends ChannelInboundHandlerAdapter{
 
-    private Collector<HealthReport> collector;
-
-    public void setCollector(Collector<HealthReport> collector){
-        this.collector = collector;
-    }
+    private Collector<String> collector = new MessageCollector();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf in = (ByteBuf)msg;
-        System.out.println(in.toString(StandardCharsets.UTF_8));
-        collector.collect(new HealthReport());
-        ctx.write(msg);
+        String message = in.toString(StandardCharsets.UTF_8);
+        collector.collect(message);
+        ReferenceCountUtil.release(msg);
     }
 
     @Override
@@ -34,7 +32,6 @@ public class ChannelInboundHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
         cause.printStackTrace();
         ctx.close();
     }

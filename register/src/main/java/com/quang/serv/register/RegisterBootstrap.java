@@ -2,6 +2,7 @@ package com.quang.serv.register;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 注册中心应集群部署，避免单点
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Lianquan Yang
  */
 @SpringBootApplication
+@ComponentScan(basePackages="com.quang.serv")
 public class RegisterBootstrap {
     public static void main(String[] args) {
 

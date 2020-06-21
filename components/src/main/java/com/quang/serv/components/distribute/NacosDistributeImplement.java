@@ -13,18 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 @Slf4j
 public abstract class NacosDistributeImplement<T> implements Distribute<T> {
 
-    @Value("${nacos.server}")
-    private String nacosServerAddr;
+    private ConfigService CONFIG_SERVICE;
 
-    private ConfigService configService;
-    {
-        try {
-            configService = NacosFactory.createConfigService(nacosServerAddr);
-        } catch (NacosException e) {
-            log.error("can not create configService", e);
-            throw new IllegalStateException("configService not created, broken");
-        }
-    }
+    public abstract String getNacosServerAddr();
 
     @Override
     public void publish(T t){
@@ -32,7 +23,7 @@ public abstract class NacosDistributeImplement<T> implements Distribute<T> {
             String group = getGroup();
             String dataId = getDataId(getKey(t));
             String config = getConfig(t);
-            if(!configService.publishConfig(dataId, group, config)){
+            if(!getConfigService().publishConfig(dataId, group, config)){
                 throw new IllegalStateException("publish config failed, please check");
             }
         } catch (NacosException e) {
@@ -45,7 +36,7 @@ public abstract class NacosDistributeImplement<T> implements Distribute<T> {
         String group = getGroup();
         String dataId = getDataId(key);
         try {
-            configService.removeConfig(dataId, group);
+            getConfigService().removeConfig(dataId, group);
         } catch (NacosException e) {
             log.error("cannot remove config, please check", e);
         }
@@ -56,10 +47,22 @@ public abstract class NacosDistributeImplement<T> implements Distribute<T> {
         String group = getGroup();
         String dataId = getDataId(key);
         try {
-            configService.addListener(dataId, group, listener);
+            getConfigService().addListener(dataId, group, listener);
         } catch (NacosException e) {
             log.error("cannot add listener, please check", e);
         }
+    }
+
+    public synchronized ConfigService getConfigService(){
+        if(CONFIG_SERVICE == null){
+            try {
+                CONFIG_SERVICE = NacosFactory.createConfigService(getNacosServerAddr());
+            } catch (NacosException e) {
+                log.error("can not create configService", e);
+                throw new IllegalStateException("configService not created, broken");
+            }
+        }
+        return CONFIG_SERVICE;
     }
 
     public abstract String getGroup();

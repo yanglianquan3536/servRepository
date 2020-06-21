@@ -3,6 +3,7 @@ package com.quang.serv.components.distribute.impl;
 import com.alibaba.fastjson.JSON;
 import com.quang.serv.components.distribute.NacosDistributeImplement;
 import com.quang.serv.core.model.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,8 +13,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceNacosDistribute extends NacosDistributeImplement<Service> {
 
+    @Value("${nacos.server.url}")
+    private String nacosServerAddr;
+
     private static final String SERVICE_REGISTER_GROUP = "serv:manager";
     private static final String SERVICE_DATA_ID_PREFIX = "name:";
+
+    @Override
+    public String getNacosServerAddr() {
+        return nacosServerAddr;
+    }
 
     @Override
     public String getGroup() {

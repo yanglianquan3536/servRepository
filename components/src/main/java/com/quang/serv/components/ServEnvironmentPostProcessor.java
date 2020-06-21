@@ -16,11 +16,12 @@ public class ServEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        String env = environment.getProperty("spring.profile.active");
+        String[] env = environment.getActiveProfiles();
         // components需要引入缓存和nacos的配置
         String[] profiles = new String[]{
-            String.format("%s/nacos.properties", env),
-            String.format("%s/redis.properties", env)
+            String.format("%s/nacos.properties", env[0]),
+            String.format("%s/redis.properties", env[0]),
+            String.format("%s/mybatis.properties", env[0]),
         };
         // 开始加载
         for (String profile : profiles) {
